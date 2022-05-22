@@ -13,7 +13,7 @@ public abstract class AbstractProp extends AbstractFlyingObject {
 
 
 
-    public AbstractProp(){this.speedY = 2;}
+    public AbstractProp(){this.speedY = 6;}
 
     /**
      * 实现用途

@@ -23,12 +23,14 @@
             android:id="@+id/normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:onClick="Startnormal"
+            android:text="normal" />
 
         <Button
             android:id="@+id/hard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:onClick="Starthard"
+            android:text="hard" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

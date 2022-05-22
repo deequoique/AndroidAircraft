@@ -23,16 +23,16 @@ public class BombSupply extends AbstractProp{
 
     @Override
     public void use(HeroAircraft heroAircraft) {
-//        BombPublish bombPublish = new BombPublish();
-//        List<AbstractAircraft> enemyAircrafts=  MainActivity.game.getEnemyAircrafts();
-//        List<AbstractBullet> enemyBullet = AbstactGame.game.getEnemyBullets();
-//        for (AbstractFlyingObject fobj : enemyAircrafts){
-//            bombPublish.addList(fobj);
-//        }
-//        for (AbstractFlyingObject fobj : enemyBullet){
-//            bombPublish.addList(fobj);
-//        }
-//        bombPublish.notifySubscribers();
-//        score = bombPublish.score;
+        BombPublish bombPublish = new BombPublish();
+        List<AbstractAircraft> enemyAircrafts=  MainActivity.game.getEnemyAircrafts();
+        List<AbstractBullet> enemyBullet = MainActivity.game.getEnemyBullets();
+        for (AbstractFlyingObject fobj : enemyAircrafts){
+            bombPublish.addList(fobj);
+        }
+        for (AbstractFlyingObject fobj : enemyBullet){
+            bombPublish.addList(fobj);
+        }
+        bombPublish.notifySubscribers();
+        score = bombPublish.score;
     }
 }

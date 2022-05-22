@@ -3,6 +3,7 @@ package com.example.androidaircraft.Game;
 import static com.example.androidaircraft.factory.PropFactory.prop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import com.example.androidaircraft.activity.InputActivity;
 import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.R;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
@@ -57,7 +59,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private final int timeInterval = 40;
+    private final int timeInterval = 10;
 
     private final HeroAircraft heroAircraft;
 
@@ -87,7 +89,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
      */
-    private final int cycleDuration = 600;
+    private final int cycleDuration = 100;
     private int cycleTime = 0;
 
     public AbstactGame(MainActivity context) {
@@ -176,8 +178,10 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
                 // 游戏结束
                 executorService.shutdown();
 
-//                //创建player
-//                createPlayer();
+                //创建player
+                createPlayer();
+
+//                Intent intent = new Intent(MainActivity.this, InputActivity.class);
             }
         };
 

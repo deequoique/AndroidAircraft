@@ -1,5 +1,7 @@
 package com.example.androidaircraft.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,12 +15,17 @@ import android.util.Log;
 import android.view.View;
 
 
+import com.example.androidaircraft.Game.HardGame;
+import com.example.androidaircraft.Game.NormalGame;
 import com.example.androidaircraft.R;
 import com.example.androidaircraft.application.ImageManager;
 import com.example.androidaircraft.databinding.ActivityMainBinding;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {
     private static  String TAG  = MainActivity.class.getSimpleName();
+    public static AbstactGame game;
+    private TextInputEditText input;
 
     private ActivityMainBinding binding;
     public static  int screenWidth ;
@@ -43,8 +50,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Starteasy(View view) {
-        EasyGame game = new EasyGame(this);
-       setContentView(game);
+        ImageManager.BACKGROUND_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.bg2);
+        game = new EasyGame(this);
+
        new Thread(game).start();
+       setContentView(game);
+//       setContentView(R.layout.id_input);
+//        input = (TextInputEditText) findViewById(R.id.input);
+    }
+
+    public void Startnormal(View view) {
+        ImageManager.BACKGROUND_IMAGE = BitmapFactory.decodeResource(getResources(),R.drawable.bg3);
+        game = new NormalGame(this);
+        setContentView(game);
+        new Thread(game).start();
+    }
+
+    public void Starthard(View view) {
+        ImageManager.BACKGROUND_IMAGE = BitmapFactory.decodeResource(getResources(),R.drawable.bg4);
+        game = new HardGame(this);
+        setContentView(game);
+        new Thread(game).start();
+    }
+
+
+    public void Confirm(View view) {
+        String c = input.getText().toString();
     }
 }

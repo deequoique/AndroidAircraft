@@ -15,6 +15,7 @@ public class BossFactory extends EnemyFactory{
         return new BossEnemy(
                 (int)(Math.random()*(MainActivity.screenWidth - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
                 (int) (Math.random() * MainActivity.screenHeight * 0.2)*1,
-                2, 0, 100);
+                6,
+                0, 100);
     }
 }

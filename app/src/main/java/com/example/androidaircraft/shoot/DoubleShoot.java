@@ -29,7 +29,7 @@ public class DoubleShoot implements ShootStrategy{
             for(int i=0; i<shootNum; i++){
                 // 子弹发射位置相对飞机位置向前偏移
                 // 多个子弹横向分散
-                abstractBullet = new HeroBullet(3*(x + (i*2 - shootNum + 1)*10), y, speedX, speedY, aircraft.getPower());
+                abstractBullet = new HeroBullet(x + (i*6 - shootNum + 1)*10, y, speedX, speedY, aircraft.getPower());
                 res.add(abstractBullet);
             }
         }
@@ -38,7 +38,7 @@ public class DoubleShoot implements ShootStrategy{
                 speedY = aircraft.getSpeedY() - aircraft.getDirection()*5;
                 // 子弹发射位置相对飞机位置向前偏移
                 // 多个子弹横向分散
-                abstractBullet = new EnemyBullet(3*(x + (i*2 - shootNum + 1)*10), y, speedX, speedY, aircraft.getPower());
+                abstractBullet = new EnemyBullet(x + (i*6 - shootNum + 1)*10, y, speedX, speedY, aircraft.getPower());
                 res.add(abstractBullet);
             }
         }
