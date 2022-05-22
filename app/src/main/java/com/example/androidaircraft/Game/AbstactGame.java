@@ -6,7 +6,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -391,7 +393,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
 
         paintImageWithPositionRevised(abstractProp);
 
-        paintImageWithPositionRevised( enemyBullets);
+        paintImageWithPositionRevised(enemyBullets);
         paintImageWithPositionRevised(heroBullets);
 
         paintImageWithPositionRevised(enemyAircrafts);
@@ -400,7 +402,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
                 heroAircraft.getLocationY() - ImageManager.HERO_IMAGE.getHeight() / 2, null);
 
         //绘制得分和生命值
-        paintScoreAndLife(canvas);
+        paintScoreAndLife();
 
         //提交canvas内容
         surfaceHolder.unlockCanvasAndPost(canvas);
@@ -411,7 +413,6 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
         if (objects.size() == 0) {
             return;
         }
-        Paint paint = new Paint();
 
         for (AbstractFlyingObject object : objects) {
             Bitmap image = object.getImage();
@@ -421,14 +422,19 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
         }
     }
 
-    protected void paintScoreAndLife(Canvas g) {
+    protected void paintScoreAndLife() {
         Paint paint = new Paint();
-        int x = 10;
-        int y = 25;
-        g.drawColor(0x00CBEF);
-        g.drawText("SCORE:" + this.score, x, y,paint);
-        y = y + 20;
-        g.drawText("LIFE:" + this.heroAircraft.getHp(), x, y,paint);
+        paint.setColor(Color.BLUE);
+        Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+        paint.setTypeface(font);
+        paint.setTextSize(50);
+
+        int x = 30;
+        int y = 75;
+
+        canvas.drawText("SCORE:" + this.score, x, y,paint);
+        y = y + 60;
+        canvas.drawText("LIFE:" + this.heroAircraft.getHp(), x, y,paint);
     }
 
     /**

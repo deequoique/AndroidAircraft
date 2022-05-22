@@ -28,7 +28,7 @@ public class MobShoot implements ShootStrategy{
         int shootNum = 1;
         AbstractBullet abstractBullet;
         if(aircraft instanceof HeroAircraft) {
-            speedY = aircraft.getSpeedY() + aircraft.getDirection()*5;
+            speedY = aircraft.getSpeedY() + aircraft.getDirection()*15;
             for(int i=0; i<shootNum; i++){
                 // 子弹发射位置相对飞机位置向前偏移
                 // 多个子弹横向分散
@@ -38,7 +38,7 @@ public class MobShoot implements ShootStrategy{
         }
         else {
             for(int i=0; i<shootNum; i++){
-                speedY = aircraft.getSpeedY() - aircraft.getDirection()*5;
+                speedY = aircraft.getSpeedY() - aircraft.getDirection()*15;
                 // 子弹发射位置相对飞机位置向前偏移
                 // 多个子弹横向分散
                 abstractBullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, speedX, speedY, aircraft.getPower());

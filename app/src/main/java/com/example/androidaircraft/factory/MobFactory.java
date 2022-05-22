@@ -16,7 +16,7 @@ public class MobFactory extends EnemyFactory{
                 (int) ( Math.random() * (MainActivity.screenWidth - ImageManager.MOB_ENEMY_IMAGE.getWidth()))*1,
                 (int) (Math.random() * MainActivity.screenWidth * 0.2)*1,
                 0,
-                10,
+                30,
                 30);
     }
 }

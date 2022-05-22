@@ -19,7 +19,7 @@ public class EliteFactory extends EnemyFactory{
                 (int)(Math.random()*(MainActivity.screenWidth - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
                 (int) (Math.random() * MainActivity.screenHeight * 0.2)*1,
                 ran.nextInt(10),
-                8,
+                34,
                 50);
     }
 }

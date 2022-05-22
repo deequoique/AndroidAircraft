@@ -6,6 +6,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.androidaircraft.R;
+import com.example.androidaircraft.aircraft.BossEnemy;
+import com.example.androidaircraft.aircraft.EliteEnemy;
+import com.example.androidaircraft.aircraft.HeroAircraft;
+import com.example.androidaircraft.aircraft.MobEnemy;
+import com.example.androidaircraft.bullet.EnemyBullet;
+import com.example.androidaircraft.bullet.HeroBullet;
+import com.example.androidaircraft.props.BombSupply;
+import com.example.androidaircraft.props.FireSupply;
+import com.example.androidaircraft.props.HpSupply;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +55,17 @@ public class ImageManager {
         ImageManager.PROP_BLOOD_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_blood);
         ImageManager.PROP_BOMB_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_bomb);
         ImageManager.PROP_BULLET_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_bullet);
+        CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(BossEnemy.class.getName(), BOSS_ENEMY_IMAGE);
+
+        CLASSNAME_IMAGE_MAP.put(HeroBullet.class.getName(), HERO_BULLET_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), ENEMY_BULLET_IMAGE);
+
+        CLASSNAME_IMAGE_MAP.put(HpSupply.class.getName(), PROP_BLOOD_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(FireSupply.class.getName(), PROP_BULLET_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(BombSupply.class.getName(), PROP_BOMB_IMAGE);
     }
 
     public static Bitmap get(String className){
@@ -57,7 +77,9 @@ public class ImageManager {
         if (obj == null){
             return null;
         }
-        return get(obj.getClass().getName());
+        else {
+            return get(obj.getClass().getName());
+        }
     }
 
 }
