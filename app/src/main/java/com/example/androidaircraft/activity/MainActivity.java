@@ -1,12 +1,10 @@
-package com.example.androidaircraft;
+package com.example.androidaircraft.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.androidaircraft.activity.AbstactGameActivity;
-import com.example.androidaircraft.activity.EasyGame;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.androidaircraft.Game.AbstactGame;
+import com.example.androidaircraft.Game.EasyGame;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +13,9 @@ import android.util.Log;
 import android.view.View;
 
 
+import com.example.androidaircraft.R;
+import com.example.androidaircraft.application.ImageManager;
 import com.example.androidaircraft.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     private static  String TAG  = MainActivity.class.getSimpleName();
@@ -26,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     public static  int screenWidth ;
     public static  int screenHeight ;
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void getScreenHW(){
@@ -43,10 +38,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getScreenHW();
         super.onCreate(savedInstanceState);
+        ImageManager.loadingImg(getResources());
         setContentView(R.layout.activity_main);
     }
 
     public void Starteasy(View view) {
-        startActivity(new Intent(this, EasyGame.class));
+        EasyGame game = new EasyGame(this);
+       setContentView(game);
+       new Thread(game).start();
     }
 }

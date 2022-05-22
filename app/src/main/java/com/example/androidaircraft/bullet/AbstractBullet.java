@@ -1,7 +1,7 @@
 package com.example.androidaircraft.bullet;
 
 
-import com.example.androidaircraft.MainActivity;
+import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.basic.AbstractFlyingObject;
 
 /**

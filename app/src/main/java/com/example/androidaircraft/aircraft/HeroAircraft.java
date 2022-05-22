@@ -1,7 +1,7 @@
 package com.example.androidaircraft.aircraft;
 
 
-import com.example.androidaircraft.MainActivity;
+import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.application.ImageManager;
 import com.example.androidaircraft.bullet.AbstractBullet;
 import com.example.androidaircraft.shoot.MobShoot;
@@ -21,9 +21,9 @@ public class HeroAircraft extends AbstractAircraft {
             MainActivity.screenHeight - ImageManager.HERO_IMAGE.getHeight() ,
             0, 0, 100000);
 
-//    public static HeroAircraft getInstance(){
-//        return instance;
-//    }
+    public static HeroAircraft getInstance(){
+        return instance;
+    }
 
     /**攻击方式 */
 
@@ -58,7 +58,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @param speedY 英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param hp    初始生命值
      */
-    public HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
+    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
     }
 

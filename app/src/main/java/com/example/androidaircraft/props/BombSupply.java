@@ -1,8 +1,8 @@
 package com.example.androidaircraft.props;
 
 
-import com.example.androidaircraft.MainActivity;
-import com.example.androidaircraft.activity.AbstactGameActivity;
+import com.example.androidaircraft.Game.AbstactGame;
+import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
 import com.example.androidaircraft.aircraft.HeroAircraft;
 import com.example.androidaircraft.basic.AbstractFlyingObject;
@@ -23,16 +23,16 @@ public class BombSupply extends AbstractProp{
 
     @Override
     public void use(HeroAircraft heroAircraft) {
-        BombPublish bombPublish = new BombPublish();
-        List<AbstractAircraft> enemyAircrafts=  AbstactGameActivity.game.getEnemyAircrafts();
-        List<AbstractBullet> enemyBullet = AbstactGameActivity.game.getEnemyBullets();
-        for (AbstractFlyingObject fobj : enemyAircrafts){
-            bombPublish.addList(fobj);
-        }
-        for (AbstractFlyingObject fobj : enemyBullet){
-            bombPublish.addList(fobj);
-        }
-        bombPublish.notifySubscribers();
-        score = bombPublish.score;
+//        BombPublish bombPublish = new BombPublish();
+//        List<AbstractAircraft> enemyAircrafts=  MainActivity.game.getEnemyAircrafts();
+//        List<AbstractBullet> enemyBullet = AbstactGame.game.getEnemyBullets();
+//        for (AbstractFlyingObject fobj : enemyAircrafts){
+//            bombPublish.addList(fobj);
+//        }
+//        for (AbstractFlyingObject fobj : enemyBullet){
+//            bombPublish.addList(fobj);
+//        }
+//        bombPublish.notifySubscribers();
+//        score = bombPublish.score;
     }
 }

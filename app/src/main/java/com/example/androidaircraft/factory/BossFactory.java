@@ -1,7 +1,7 @@
 package com.example.androidaircraft.factory;
 
 
-import com.example.androidaircraft.MainActivity;
+import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
 import com.example.androidaircraft.aircraft.BossEnemy;
 import com.example.androidaircraft.application.ImageManager;

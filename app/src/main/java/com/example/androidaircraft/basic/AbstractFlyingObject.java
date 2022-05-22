@@ -3,7 +3,7 @@ package com.example.androidaircraft.basic;
 
 import android.graphics.Bitmap;
 
-import com.example.androidaircraft.MainActivity;
+import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
 import com.example.androidaircraft.application.ImageManager;
 
@@ -135,6 +135,7 @@ public abstract class AbstractFlyingObject implements Subscriber {
     }
 
     public Bitmap getImage() {
+        
         if (image == null){
             image = ImageManager.get(this);
         }

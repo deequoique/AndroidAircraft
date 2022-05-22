@@ -1,7 +1,7 @@
 package com.example.androidaircraft.aircraft;
 
 
-import com.example.androidaircraft.MainActivity;
+import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.bullet.AbstractBullet;
 import com.example.androidaircraft.shoot.MobShoot;
 import com.example.androidaircraft.shoot.ShootContext;

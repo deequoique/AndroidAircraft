@@ -1,16 +1,18 @@
-package com.example.androidaircraft.activity;
+package com.example.androidaircraft.Game;
 
 import static com.example.androidaircraft.factory.PropFactory.prop;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Bundle;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 
-import com.example.androidaircraft.MainActivity;
+import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.R;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
 import com.example.androidaircraft.aircraft.BossEnemy;
@@ -18,6 +20,7 @@ import com.example.androidaircraft.aircraft.EliteEnemy;
 import com.example.androidaircraft.aircraft.HeroAircraft;
 import com.example.androidaircraft.application.ImageManager;
 import com.example.androidaircraft.basic.AbstractFlyingObject;
+import com.example.androidaircraft.basic.HeroController;
 import com.example.androidaircraft.bullet.AbstractBullet;
 import com.example.androidaircraft.factory.EnemyFactory;
 import com.example.androidaircraft.player.Player;
@@ -30,21 +33,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-public class AbstactGameActivity extends AppCompatActivity {
+public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.Callback ,Runnable{
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.easy_game);
-    }
-    public static AbstactGameActivity game = new AbstactGameActivity();
+    private Canvas canvas;
+    private SurfaceHolder surfaceHolder;
+    private final Paint paint = new Paint();
     public int gameMode;
+
 
     private int backGroundTop = 0;
 
-    private Canvas canvas;
 
     /**
      * Scheduled 线程池，用于任务调度
@@ -87,17 +88,14 @@ public class AbstactGameActivity extends AppCompatActivity {
     private final int cycleDuration = 600;
     private int cycleTime = 0;
 
-    public AbstactGameActivity() {
-        heroAircraft = new HeroAircraft(
-                MainActivity.screenWidth / 2,
-                MainActivity.screenHeight - ImageManager.HERO_IMAGE.getHeight() ,
-                0, 0, 100000);
-//        heroAircraft = HeroAircraft.getInstance();
+    public AbstactGame(MainActivity context) {
+
+        super(context);
+        heroAircraft = HeroAircraft.getInstance();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         abstractProp = new LinkedList<>();
-
 
 
         /*
@@ -105,15 +103,29 @@ public class AbstactGameActivity extends AppCompatActivity {
           关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
           apache 第三方库： org.apache.commons.lang3.concurrent.BasicThreadFactory
          */
-        this.executorService = new ScheduledThreadPoolExecutor(1);
-        //启动英雄机鼠标监听
-//TODO
+        ThreadFactory gameThread = new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable runnable) {
+                Thread t = new Thread(runnable);
+                t.setName("game thread");
+                return t;
+            }
+        };
+        this.executorService = new ScheduledThreadPoolExecutor(1,gameThread);
+        //启动触摸监听
+        this.setOnTouchListener(new HeroController(this,heroAircraft));
+
+        surfaceHolder = this.getHolder();
+        surfaceHolder.addCallback(this);
+        this.setFocusable(true);
+
     }
 
     /**
      * 游戏启动入口，执行游戏逻辑
      */
-    public void action() {
+    public void run() {
+
 
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
@@ -128,7 +140,6 @@ public class AbstactGameActivity extends AppCompatActivity {
                 System.out.println(time);
                 //Boss检测
                 bossTime();
-
 
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
@@ -157,16 +168,14 @@ public class AbstactGameActivity extends AppCompatActivity {
             postProcessAction();
 
             //每个时刻重绘界面
-            draw(canvas);
-
+            draw();
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
                 executorService.shutdown();
 
-                //创建player
-                createPlayer();
-
+//                //创建player
+//                createPlayer();
             }
         };
 
@@ -360,33 +369,45 @@ public class AbstactGameActivity extends AppCompatActivity {
 
 
 
-    public void draw(Canvas g){
-        Paint mPaint = new Paint();
-        g.drawBitmap(ImageManager.BACKGROUND_IMAGE,0, (float) (this.backGroundTop - MainActivity.screenHeight),mPaint);
-        g.drawBitmap(ImageManager.BACKGROUND_IMAGE,0,this.backGroundTop,mPaint);
+    public void draw() {
+        surfaceHolder = this.getHolder();
+        canvas = surfaceHolder.lockCanvas();
+        super.draw(canvas);
+        if (canvas==null) return;
+
+        // 循环绘制背景图片
+        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE,0,
+                backGroundTop-ImageManager.BACKGROUND_IMAGE.getHeight(),paint);
+        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE,0,backGroundTop,paint);
+        backGroundTop+=1;
+        if (backGroundTop==ImageManager.BACKGROUND_IMAGE.getHeight()) backGroundTop=0;
         backGroundTop += 1;
-        if(backGroundTop == MainActivity.screenHeight){
+        if (backGroundTop == MainActivity.screenHeight) {
             this.backGroundTop = 0;
         }
+
         // 先绘制道具，再子弹，后绘制飞机
         // 这样子弹显示在飞机的下层
 
-        paintImageWithPositionRevised(g,abstractProp);
+        paintImageWithPositionRevised(abstractProp);
 
-        paintImageWithPositionRevised(g, enemyBullets);
-        paintImageWithPositionRevised(g, heroBullets);
+        paintImageWithPositionRevised( enemyBullets);
+        paintImageWithPositionRevised(heroBullets);
 
-        paintImageWithPositionRevised(g, enemyAircrafts);
+        paintImageWithPositionRevised(enemyAircrafts);
 
-        g.drawBitmap(ImageManager.HERO_IMAGE, heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2,
+        canvas.drawBitmap(ImageManager.HERO_IMAGE, heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2,
                 heroAircraft.getLocationY() - ImageManager.HERO_IMAGE.getHeight() / 2, null);
 
         //绘制得分和生命值
-        paintScoreAndLife(g);
+        paintScoreAndLife(canvas);
+
+        //提交canvas内容
+        surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
 
-    private void paintImageWithPositionRevised(Canvas g, List<? extends AbstractFlyingObject> objects) {
+    private void paintImageWithPositionRevised(List<? extends AbstractFlyingObject> objects) {
         if (objects.size() == 0) {
             return;
         }
@@ -395,12 +416,12 @@ public class AbstactGameActivity extends AppCompatActivity {
         for (AbstractFlyingObject object : objects) {
             Bitmap image = object.getImage();
             assert image != null : objects.getClass().getName() + " has no image! ";
-            g.drawBitmap(image, object.getLocationX() - image.getWidth() / 2,
+            canvas.drawBitmap(image, object.getLocationX() - image.getWidth() / 2,
                     object.getLocationY() - image.getHeight() / 2, paint);
         }
     }
 
-    private void paintScoreAndLife(Canvas g) {
+    protected void paintScoreAndLife(Canvas g) {
         Paint paint = new Paint();
         int x = 10;
         int y = 25;
@@ -431,17 +452,22 @@ public class AbstactGameActivity extends AppCompatActivity {
 
     }
 
-    public void loadingImg(){
-        ImageManager.BACKGROUND_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
-        ImageManager.HERO_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.hero);
-        ImageManager.BOSS_ENEMY_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.boss);
-        ImageManager.ELITE_ENEMY_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.elite);
-        ImageManager.ENEMY_BULLET_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.bullet_enemy);
-        ImageManager.HERO_BULLET_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.bullet_hero);
-        ImageManager.MOB_ENEMY_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.mob);
-        ImageManager.PROP_BLOOD_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.prop_blood);
-        ImageManager.PROP_BOMB_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.prop_bomb);
-        ImageManager.PROP_BULLET_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.prop_bullet);
+
+
+
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
+
     }
 
 }
