@@ -46,6 +46,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
     private SurfaceHolder surfaceHolder;
     private final Paint paint = new Paint();
     public int gameMode;
+    private MainActivity context;
 
 
     private int backGroundTop = 0;
@@ -95,6 +96,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
     public AbstactGame(MainActivity context) {
 
         super(context);
+        this.context = context;
         heroAircraft = HeroAircraft.getInstance();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
@@ -175,13 +177,17 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
             draw();
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
-                // 游戏结束
-                executorService.shutdown();
+
+                System.out.println("game over");
+                Intent intent = new Intent(context, InputActivity.class);
+                context.startActivity(intent);
 
                 //创建player
                 createPlayer();
 
-//                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                // 游戏结束
+                executorService.shutdown();
+
             }
         };
 

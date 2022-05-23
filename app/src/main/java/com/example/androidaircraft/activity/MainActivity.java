@@ -25,7 +25,6 @@ import com.google.android.material.textfield.TextInputEditText;
 public class MainActivity extends AppCompatActivity {
     private static  String TAG  = MainActivity.class.getSimpleName();
     public static AbstactGame game;
-    private TextInputEditText input;
 
     private ActivityMainBinding binding;
     public static  int screenWidth ;
@@ -52,11 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public void Starteasy(View view) {
         ImageManager.BACKGROUND_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.bg2);
         game = new EasyGame(this);
-
        new Thread(game).start();
        setContentView(game);
-//       setContentView(R.layout.id_input);
-//        input = (TextInputEditText) findViewById(R.id.input);
     }
 
     public void Startnormal(View view) {
@@ -73,8 +69,4 @@ public class MainActivity extends AppCompatActivity {
         new Thread(game).start();
     }
 
-
-    public void Confirm(View view) {
-        String c = input.getText().toString();
-    }
 }

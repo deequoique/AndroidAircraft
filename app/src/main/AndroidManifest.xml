@@ -10,12 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidAircraft" >
         <activity
-            android:name=".ui.login.LoginActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login" />
-        <activity
-            android:name=".Game.EasyGame"
+            android:name=".activity.InputActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
