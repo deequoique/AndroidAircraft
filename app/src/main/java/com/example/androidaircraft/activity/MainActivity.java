@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 
 import com.example.androidaircraft.Game.HardGame;
@@ -26,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private static  String TAG  = MainActivity.class.getSimpleName();
     public static AbstactGame game;
 
-    private ActivityMainBinding binding;
+    private boolean needMusic;
+    private Switch bgm ;
     public static  int screenWidth ;
     public static  int screenHeight ;
 
@@ -46,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ImageManager.loadingImg(getResources());
         setContentView(R.layout.activity_main);
+        bgm = (Switch) findViewById(R.id.bgm);
+
+        bgm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                needMusic = b;
+            }
+        });
     }
 
     public void Starteasy(View view) {
@@ -53,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         game = new EasyGame(this);
        new Thread(game).start();
        setContentView(game);
+       if(needMusic){
+           game.setNeedMusic(true);
+       }
     }
 
     public void Startnormal(View view) {
@@ -60,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         game = new NormalGame(this);
         setContentView(game);
         new Thread(game).start();
+        if(needMusic){
+            game.setNeedMusic(true);
+        }
     }
 
     public void Starthard(View view) {
@@ -67,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         game = new HardGame(this);
         setContentView(game);
         new Thread(game).start();
+        if(needMusic){
+            game.setNeedMusic(true);
+        }
     }
 
 }

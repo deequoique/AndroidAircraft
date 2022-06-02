@@ -17,13 +17,38 @@ import java.util.List;
 import java.util.Map;
 
 public class MusicService extends Service {
-    private ArrayList<MediaPlayer> players;
+    private ArrayList<MediaPlayer> players = new ArrayList<>();
     private MediaPlayer bgmPlayer;
     private MediaPlayer bossPlayer;
     private MediaPlayer bombPlayer;
     private MediaPlayer bulletHitPlayer;
     private MediaPlayer gameOverPlayer;
     private MediaPlayer getSupplyPlayer;
+
+    public int onStartCommand(Intent intent , int flags, int startId){
+        String action = intent.getStringExtra("action");
+        if("bgm".equals(action)){
+            playBgm();
+        }else if ("boss".equals(action)){
+            playBossBgm();
+        }else if("bomb".equals(action)){
+            playBomb();
+        }else if("bullet".equals(action)){
+            playBullet();
+        }else if("over".equals(action)){
+            playGameOver();
+        }else if("supply".equals(action)){
+            playSupply();
+        }else if("stop".equals(action)){
+            stopMusic();
+        }else if("stop_boss".equals(action)){
+            stopMusic(bossPlayer);
+        }else if("stop_bgm".equals(action)){
+            stopMusic(bgmPlayer);
+        }
+        return super.onStartCommand(intent,flags,startId);
+    }
+
     public void playBgm(){
         if(bgmPlayer == null){
             bgmPlayer = MediaPlayer.create(this, R.raw.bgm);
