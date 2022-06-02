@@ -56,7 +56,7 @@
             android:background="@drawable/friend" />
 
         <Switch
-            android:id="@+id/switch2"
+            android:id="@+id/bgm"
             android:layout_width="113dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

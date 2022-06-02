@@ -23,6 +23,7 @@ import com.example.androidaircraft.aircraft.BossEnemy;
 import com.example.androidaircraft.aircraft.EliteEnemy;
 import com.example.androidaircraft.aircraft.HeroAircraft;
 import com.example.androidaircraft.application.ImageManager;
+import com.example.androidaircraft.application.MusicService;
 import com.example.androidaircraft.basic.AbstractFlyingObject;
 import com.example.androidaircraft.basic.HeroController;
 import com.example.androidaircraft.bullet.AbstractBullet;
@@ -47,11 +48,20 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
     private final Paint paint = new Paint();
     public int gameMode;
     private MainActivity context;
+    private final Intent intent;
 
 
     private int backGroundTop = 0;
 
+    public void setNeedMusic(boolean needMusic) {
+        this.needMusic = needMusic;
+    }
 
+    public boolean isNeedMusic() {
+        return needMusic;
+    }
+
+    private boolean needMusic = false;
     /**
      * Scheduled 线程池，用于任务调度
      */
@@ -97,6 +107,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
 
         super(context);
         this.context = context;
+        this.intent = new Intent(context,MusicService.class);
         heroAircraft = HeroAircraft.getInstance();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
@@ -175,6 +186,9 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
 
             //每个时刻重绘界面
             draw();
+
+            //背景音乐检查
+            music();
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
 
@@ -261,6 +275,10 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
             if (heroAircraft.crash(enemybullet)) {
                 heroAircraft.decreaseHp(enemybullet.getPower());
                 enemybullet.vanish();
+                if(needMusic){
+                    intent.putExtra("action","bullet");
+                    context.startService(intent);
+                }
             }
         }
         // 英雄子弹攻击敌机
@@ -278,6 +296,10 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
                     enemyAircraft.decreaseHp(bullet.getPower());
+                    if(needMusic){
+                        intent.putExtra("action","bullet");
+                        context.startService(intent);
+                    }
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         //  获得分数，产生道具补给
@@ -454,6 +476,27 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
         player = new Player(this.score,dateFormat.format(date),gameMode);
+    }
+
+    /**
+     * 音乐判断
+     */
+    private void music(){
+
+        intent.putExtra("action","bgm");
+        context.startService(intent);
+        if(!bossExist){
+            intent.putExtra("action","stop_boss");
+            context.startService(intent);
+            intent.putExtra("action","bgm");
+            context.startService(intent);
+        }
+        else {
+//            intent.putExtra("action","stop_bgm");
+//            context.startService(intent);
+            intent.putExtra("action","boss");
+            context.startService(intent);
+        }
     }
 
     public List<AbstractAircraft> getEnemyAircrafts() {
