@@ -90,6 +90,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
     protected int enemyMaxNumber = 5;
 
     protected boolean bossExist = false;
+    protected boolean bossFlag = false;
 
 
     private int score = 0;
@@ -188,7 +189,11 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
             draw();
 
             //背景音乐检查
-            music();
+            if(needMusic){
+                intent.putExtra("action","bgm");
+                context.startService(intent);
+                music();
+            }
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
 
@@ -482,20 +487,21 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
      * 音乐判断
      */
     private void music(){
-
-        intent.putExtra("action","bgm");
-        context.startService(intent);
-        if(!bossExist){
-            intent.putExtra("action","stop_boss");
-            context.startService(intent);
-            intent.putExtra("action","bgm");
-            context.startService(intent);
-        }
-        else {
+        if(bossExist){
 //            intent.putExtra("action","stop_bgm");
 //            context.startService(intent);
             intent.putExtra("action","boss");
             context.startService(intent);
+            bossFlag = true;
+        }
+        else {
+            if(bossFlag){
+                intent.putExtra("action","stop_boss");
+                context.startService(intent);
+                intent.putExtra("action","bgm");
+                context.startService(intent);
+                bossFlag = false;
+            }
         }
     }
 

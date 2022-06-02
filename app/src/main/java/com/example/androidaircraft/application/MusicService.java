@@ -55,6 +55,7 @@ public class MusicService extends Service {
             players.add(bgmPlayer);
         }
 
+        bgmPlayer.setLooping(true);
         bgmPlayer.start();
     }
 
@@ -63,7 +64,7 @@ public class MusicService extends Service {
             bossPlayer = MediaPlayer.create(this,R.raw.bgm_boss);
             players.add(bossPlayer);
         }
-
+        bossPlayer.setLooping(true);
         bossPlayer.start();
     }
 
