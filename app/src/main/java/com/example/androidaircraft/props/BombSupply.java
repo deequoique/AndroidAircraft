@@ -1,7 +1,6 @@
 package com.example.androidaircraft.props;
 
 
-import com.example.androidaircraft.Game.AbstactGame;
 import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
 import com.example.androidaircraft.aircraft.HeroAircraft;

@@ -3,7 +3,7 @@ package com.example.androidaircraft.basic;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.androidaircraft.Game.AbstactGame;
+import com.example.androidaircraft.game.AbstactGame;
 import com.example.androidaircraft.aircraft.HeroAircraft;
 
 public class HeroController implements View.OnTouchListener {

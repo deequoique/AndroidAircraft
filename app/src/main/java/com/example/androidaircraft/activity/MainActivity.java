@@ -1,12 +1,11 @@
 package com.example.androidaircraft.activity;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.androidaircraft.Game.AbstactGame;
-import com.example.androidaircraft.Game.EasyGame;
+import com.example.androidaircraft.game.AbstactGame;
+import com.example.androidaircraft.game.EasyGame;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +16,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 
-import com.example.androidaircraft.Game.HardGame;
-import com.example.androidaircraft.Game.NormalGame;
+import com.example.androidaircraft.game.HardGame;
+import com.example.androidaircraft.game.NormalGame;
 import com.example.androidaircraft.R;
 import com.example.androidaircraft.application.ImageManager;
-import com.example.androidaircraft.databinding.ActivityMainBinding;
-import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {
     private static  String TAG  = MainActivity.class.getSimpleName();

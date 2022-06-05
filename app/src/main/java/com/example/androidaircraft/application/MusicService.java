@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -24,6 +25,8 @@ public class MusicService extends Service {
     private MediaPlayer bulletHitPlayer;
     private MediaPlayer gameOverPlayer;
     private MediaPlayer getSupplyPlayer;
+
+    private String TAG = "bgm";
 
     public int onStartCommand(Intent intent , int flags, int startId){
         String action = intent.getStringExtra("action");
@@ -55,6 +58,7 @@ public class MusicService extends Service {
             players.add(bgmPlayer);
         }
 
+        Log.i(TAG,"start bgm");
         bgmPlayer.setLooping(true);
         bgmPlayer.start();
     }
@@ -64,7 +68,8 @@ public class MusicService extends Service {
             bossPlayer = MediaPlayer.create(this,R.raw.bgm_boss);
             players.add(bossPlayer);
         }
-        bossPlayer.setLooping(true);
+        Log.i(TAG,"start boss");
+
         bossPlayer.start();
     }
 

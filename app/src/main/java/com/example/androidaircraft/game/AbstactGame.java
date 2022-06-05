@@ -1,11 +1,9 @@
-package com.example.androidaircraft.Game;
+package com.example.androidaircraft.game;
 
 import static com.example.androidaircraft.factory.PropFactory.prop;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,7 +15,6 @@ import androidx.annotation.NonNull;
 
 import com.example.androidaircraft.activity.InputActivity;
 import com.example.androidaircraft.activity.MainActivity;
-import com.example.androidaircraft.R;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
 import com.example.androidaircraft.aircraft.BossEnemy;
 import com.example.androidaircraft.aircraft.EliteEnemy;
@@ -143,13 +140,17 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
      * 游戏启动入口，执行游戏逻辑
      */
     public void run() {
-
+        if(needMusic){
+            intent.putExtra("action","bgm");
+            context.startService(intent);
+        }
 
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
             time += timeInterval;
+
 
 
             // 周期性执行（控制频率）
@@ -190,8 +191,6 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
 
             //背景音乐检查
             if(needMusic){
-                intent.putExtra("action","bgm");
-                context.startService(intent);
                 music();
             }
             // 游戏结束检查
@@ -487,18 +486,15 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
      * 音乐判断
      */
     private void music(){
-        if(bossExist){
-//            intent.putExtra("action","stop_bgm");
-//            context.startService(intent);
+        if(bossExist && !bossFlag){
             intent.putExtra("action","boss");
             context.startService(intent);
             bossFlag = true;
         }
         else {
-            if(bossFlag){
+            if(!bossExist && bossFlag){
+                System.out.println("bgm yes");
                 intent.putExtra("action","stop_boss");
-                context.startService(intent);
-                intent.putExtra("action","bgm");
                 context.startService(intent);
                 bossFlag = false;
             }
