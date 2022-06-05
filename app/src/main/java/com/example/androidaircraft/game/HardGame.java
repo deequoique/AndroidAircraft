@@ -1,4 +1,4 @@
-package com.example.androidaircraft.Game;
+package com.example.androidaircraft.game;
 
 import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
