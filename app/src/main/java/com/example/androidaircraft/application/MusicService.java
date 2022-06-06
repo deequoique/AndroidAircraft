@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MusicService extends Service {
-    private ArrayList<MediaPlayer> players = new ArrayList<>();
     private MediaPlayer bgmPlayer;
     private MediaPlayer bossPlayer;
     private MediaPlayer bombPlayer;
@@ -42,9 +41,7 @@ public class MusicService extends Service {
             playGameOver();
         }else if("supply".equals(action)){
             playSupply();
-        }else if("stop".equals(action)){
-            stopMusic();
-        }else if("stop_boss".equals(action)){
+        } else if("stop_boss".equals(action)){
             stopMusic(bossPlayer);
         }else if("stop_bgm".equals(action)){
             stopMusic(bgmPlayer);
@@ -55,7 +52,6 @@ public class MusicService extends Service {
     public void playBgm(){
         if(bgmPlayer == null){
             bgmPlayer = MediaPlayer.create(this, R.raw.bgm);
-            players.add(bgmPlayer);
         }
 
         Log.i(TAG,"start bgm");
@@ -64,10 +60,7 @@ public class MusicService extends Service {
     }
 
     public void playBossBgm(){
-        if(bossPlayer == null){
-            bossPlayer = MediaPlayer.create(this,R.raw.bgm_boss);
-            players.add(bossPlayer);
-        }
+        bossPlayer = MediaPlayer.create(this,R.raw.bgm_boss);
         Log.i(TAG,"start boss");
 
         bossPlayer.start();
@@ -76,7 +69,6 @@ public class MusicService extends Service {
     public void playBomb(){
         if(bombPlayer == null){
             bombPlayer = MediaPlayer.create(this, R.raw.bomb_explosion);
-            players.add(bombPlayer);
         }
 
         bombPlayer.start();
@@ -85,7 +77,6 @@ public class MusicService extends Service {
     public void playBullet(){
         if(bulletHitPlayer == null){
             bulletHitPlayer = MediaPlayer.create(this, R.raw.bullet_hit);
-            players.add(bulletHitPlayer);
         }
 
         bulletHitPlayer.start();
@@ -94,7 +85,6 @@ public class MusicService extends Service {
     public void playGameOver(){
         if(gameOverPlayer == null){
             gameOverPlayer = MediaPlayer.create(this, R.raw.game_over);
-            players.add(gameOverPlayer);
         }
 
         gameOverPlayer.start();
@@ -103,7 +93,6 @@ public class MusicService extends Service {
     public void playSupply(){
         if(getSupplyPlayer == null){
             getSupplyPlayer = MediaPlayer.create(this, R.raw.get_supply);
-            players.add(getSupplyPlayer);
         }
 
         getSupplyPlayer.start();
@@ -114,20 +103,11 @@ public class MusicService extends Service {
             player.stop();
             player.reset();//重置
             player.release();//释放
+            Log.i(TAG,"stop boss");
             player = null;
         }
     }
 
-    public void stopMusic(){
-        for (MediaPlayer player : players){
-            if (player != null) {
-                player.stop();
-                player.reset();//重置
-                player.release();//释放
-                player = null;
-            }
-        }
-    }
 
     @Nullable
     @Override

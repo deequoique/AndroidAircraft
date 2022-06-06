@@ -197,7 +197,10 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
             if (heroAircraft.getHp() <= 0) {
 
                 System.out.println("game over");
+                intent.putExtra("action","over");
+                context.startService(intent);
                 Intent intent = new Intent(context, InputActivity.class);
+
                 context.startActivity(intent);
 
                 //创建player
@@ -342,7 +345,11 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
             if (heroAircraft.crash(p)) {
                 p.vanish();
                 p.use(heroAircraft);
+                intent.putExtra("action","supply");
+                context.startService(intent);
                 if (p instanceof BombSupply) {
+                    intent.putExtra("action","bomb");
+                    context.startService(intent);
                     score += ((BombSupply) p).score;
                     scorer += ((BombSupply) p).score;
                 }
