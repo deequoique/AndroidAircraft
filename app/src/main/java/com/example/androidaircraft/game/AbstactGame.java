@@ -111,6 +111,8 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         abstractProp = new LinkedList<>();
+        Intent intent = new Intent(context,InputActivity.class);
+
 
 
         /*
