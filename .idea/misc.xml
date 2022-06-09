@@ -4,11 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/activity_easy_game.xml" value="0.1703125" />
-        <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/easy_game.xml" value="0.18489583333333334" />
-        <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/id_input.xml" value="0.67" />
+        <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/id_input.xml" value="0.4" />
         <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/rank_list.xml" value="0.3619791666666667" />
         <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/rank_list_item.xml" value="0.264" />
+        <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/layout/register.xml" value="0.25" />
+        <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/xml/file_paths.xml" value="0.3619791666666667" />
+        <entry key="..\:/1hairgodie/AndroidAircraft/app/src/main/res/xml/litepal.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/86153/Desktop/AndroidAircraft-master/app/src/main/res/layout/activity_main.xml" value="0.32407407407407407" />
         <entry key="..\:/Users/86153/Desktop/AndroidAircraft-master/app/src/main/res/layout/id_input.xml" value="0.17708333333333334" />
       </map>

@@ -6,40 +6,24 @@ import java.io.Serializable;
  * @author 200111013
  */
 public class Player implements Serializable {
-    private int score;
+    private static final Player instance = new Player();
+
+    public int score;
 
     public int getGameMode() {
         return gameMode;
     }
 
+    public int gameMode = 0;
+    public String name;
 
-    private final int gameMode;
-    private String name;
-    private final String time;
-    public Player(int score, String time ,int gameMode){
-        this.score = score;
-        this.time = time;
-        this.gameMode = gameMode;
+
+    public String passWord;
+    public String time = null;
+
+    private Player(){
     }
-
-    public int getScore() {
-        return score;
+    public static Player getInstance(){
+        return instance;
     }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
 }

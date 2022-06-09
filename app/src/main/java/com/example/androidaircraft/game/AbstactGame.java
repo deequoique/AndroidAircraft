@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
-import com.example.androidaircraft.activity.InputActivity;
+import com.example.androidaircraft.activity.RegisterActivity;
 import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
 import com.example.androidaircraft.aircraft.BossEnemy;
@@ -199,7 +199,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
                 System.out.println("game over");
                 intent.putExtra("action","over");
                 context.startService(intent);
-                Intent intent = new Intent(context, InputActivity.class);
+                Intent intent = new Intent(context, RegisterActivity.class);
 
                 context.startActivity(intent);
 
@@ -486,7 +486,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
     private void createPlayer(){
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-        player = new Player(this.score,dateFormat.format(date),gameMode);
+        player = Player.getInstance();
     }
 
     /**
