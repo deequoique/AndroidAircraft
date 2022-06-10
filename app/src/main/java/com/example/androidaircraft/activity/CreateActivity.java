@@ -121,14 +121,16 @@ public class CreateActivity extends AppCompatActivity {
 
 
                 Looper.prepare();
-                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-                if(flag){
+                ObjectOutputStream oos = null;
+                if(flag){ 
+                    oos = new ObjectOutputStream(socket.getOutputStream());
                     System.out.println(".1");
                     //未注册则将该用户传入服务器
                     s = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
                     String i = s.readLine();
                     System.out.println(".2");
-                    if (i.equals("1")){
+                    System.out.println(i);
+                    while (i != null){
                         System.out.println("there");
                         oos.writeObject(player);
 
@@ -136,13 +138,9 @@ public class CreateActivity extends AppCompatActivity {
                         Intent intent = new Intent(CreateActivity.this , RegisterActivity.class);
                         startActivity(intent);
                     }
-                    else {
-                        System.out.println("there");
-                        oos.writeObject(null);
-                    }
                 }
                 else {
-                    oos.writeObject(null);
+
                     Toast.makeText(CreateActivity.this,"该id已被占用",Toast.LENGTH_SHORT).show();
 
                 }
