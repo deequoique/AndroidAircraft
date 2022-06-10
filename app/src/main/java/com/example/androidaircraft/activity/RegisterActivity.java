@@ -22,8 +22,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.ArrayList;
 
@@ -36,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity{
     private Player player;
     private Socket socket;
     private boolean flag = false;
+    private PrintWriter out;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -75,6 +79,16 @@ public class RegisterActivity extends AppCompatActivity{
                 Log.i("test","do");
                 socket.connect(new InetSocketAddress("192.168.56.1",9999),5000);
 
+                /**
+                 * 向服务器发送请求码
+                 */
+
+                out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8),true);
+                out.println("register" + "");
+
+                /**
+                 * 将从服务器获取的账号密码信息存入列表
+                 */
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 try {
                     playerDao.players.addAll ((ArrayList<Player>) in.readObject());
@@ -90,6 +104,10 @@ public class RegisterActivity extends AppCompatActivity{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            /**
+             * 打印账号列表
+             */
             for(Player p : playerDao.players){
                 System.out.println(p.name+"\n");
             }
@@ -97,6 +115,9 @@ public class RegisterActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * 页面逻辑判断
+     */
     public void judge(){
         Looper.prepare();
         for(Player players: playerDao.getPlayers()){
@@ -105,10 +126,10 @@ public class RegisterActivity extends AppCompatActivity{
                     player = players;
                     Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                     startActivity(intent);
-                }
+                }//密码正确，进入主页面
                 else {
                     Toast.makeText(RegisterActivity.this,"密码错误",Toast.LENGTH_SHORT).show();
-                }
+                }//密码错误
                 flag = true;
                 break;
             }
@@ -123,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity{
             Toast.makeText(RegisterActivity.this,"您还没有账号,正在为您跳转到注册界面",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(RegisterActivity.this , CreateActivity.class);
             startActivity(intent);
-        }
+        }//没有账户，跳转到注册界面
         Looper.loop();
     }
 }
