@@ -13,6 +13,7 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import com.example.androidaircraft.activity.RankListActivity;
 import com.example.androidaircraft.activity.RegisterActivity;
 import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
@@ -196,15 +197,17 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
 
+                //创建player
+                createPlayer();
+
                 System.out.println("game over");
                 intent.putExtra("action","over");
                 context.startService(intent);
-                Intent intent = new Intent(context, RegisterActivity.class);
+                Intent intent = new Intent(context, RankListActivity.class);
 
                 context.startActivity(intent);
 
-                //创建player
-                createPlayer();
+
 
                 // 游戏结束
                 executorService.shutdown();
@@ -487,6 +490,8 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
         player = Player.getInstance();
+        player.score = this.score;
+        player.time = date.toString();
     }
 
     /**

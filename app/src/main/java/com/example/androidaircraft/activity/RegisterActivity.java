@@ -2,9 +2,7 @@ package com.example.androidaircraft.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidaircraft.R;
 import com.example.androidaircraft.player.Player;
 import com.example.androidaircraft.player.PlayerDaoImpl;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,7 +24,6 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity{
