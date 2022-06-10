@@ -34,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity{
     private String idString, passWordString;
     private PlayerDaoImpl playerDao = new PlayerDaoImpl();
     private Player player;
+    private Socket socket;
+    private boolean flag = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -51,7 +53,6 @@ public class RegisterActivity extends AppCompatActivity{
         switch (v.getId()){
             case R.id.login:
                 login();
-                Toast.makeText(RegisterActivity.this,"click",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -70,20 +71,20 @@ public class RegisterActivity extends AppCompatActivity{
         @Override
         public void run() {
             try {
-                Socket socket = new Socket();
+                socket = new Socket();
                 Log.i("test","do");
                 socket.connect(new InetSocketAddress("192.168.56.1",9999),5000);
-                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-                oos.writeObject(player);
-
 
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 try {
                     playerDao.players.addAll ((ArrayList<Player>) in.readObject());
+                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    oos.writeObject(null);
+                    oos.close();
+                    socket.shutdownOutput();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                oos.close();
                 in.close();
                 socket.close();
             } catch (IOException e) {
@@ -99,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity{
     public void judge(){
         Looper.prepare();
         for(Player players: playerDao.getPlayers()){
-            if(players.name.equals(idString)){
+            if (players.name.equals(idString)){
                 if(players.passWord.equals(passWordString)){
                     player = players;
                     Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
@@ -108,12 +109,20 @@ public class RegisterActivity extends AppCompatActivity{
                 else {
                     Toast.makeText(RegisterActivity.this,"密码错误",Toast.LENGTH_SHORT).show();
                 }
+                flag = true;
                 break;
             }
-            else {
-                System.out.println("no id");
-                Toast.makeText(RegisterActivity.this,"您还没有账号",Toast.LENGTH_SHORT).show();
+        }
+        if(!flag) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            System.out.println("no id");
+            Toast.makeText(RegisterActivity.this,"您还没有账号,正在为您跳转到注册界面",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(RegisterActivity.this , CreateActivity.class);
+            startActivity(intent);
         }
         Looper.loop();
     }
