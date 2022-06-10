@@ -95,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity{
                     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                     oos.writeObject(null);
                     oos.close();
-                    socket.shutdownOutput();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
