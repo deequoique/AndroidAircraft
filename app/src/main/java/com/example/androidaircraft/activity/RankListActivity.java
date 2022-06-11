@@ -1,5 +1,7 @@
 package com.example.androidaircraft.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import com.example.androidaircraft.R;
 import com.example.androidaircraft.application.PlayerAdapter;
 import com.example.androidaircraft.player.Player;
 import com.example.androidaircraft.player.PlayerDaoImpl;
+import com.example.androidaircraft.util.CompareScore;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,6 +54,34 @@ public class RankListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog alertDialog = new AlertDialog.Builder(RankListActivity.this)
+                        .setTitle("确认删除该条记录吗")
+                        .setMessage("（确认后无法恢复）")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {//添加"Yes"按钮
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int j) {
+
+                                datas.remove(i);
+                                playerAdapter.notifyDataSetChanged();
+                                new Thread(new Out()).start();
+                                Toast.makeText(RankListActivity.this, "这是确定按钮", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {//添加取消
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(RankListActivity.this, "这是取消按钮", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNeutralButton("普通按钮", new DialogInterface.OnClickListener() {//添加普通按钮
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(RankListActivity.this, "这是普通按钮", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .create();
+                alertDialog.show();
                 Toast.makeText(RankListActivity.this,"您单击了"+datas.get(i).name,Toast.LENGTH_SHORT).show();
             }
         });
@@ -82,27 +113,29 @@ public class RankListActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 datas.addAll(playerDao.players);
-                datas.add(Player.getInstance());
-                out.println("get it"+"");
-                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-
-                s = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
-                String i = s.readLine();
-
-                if (i.equals("give")){
-                    oos.writeObject(datas);
+                /*
+                 * 避免相同数据重复存储
+                 */
+                boolean flag = true;
+                for (Player p : datas){
+                    if(p.time.equals(Player.getInstance().time)){
+                        flag = false;
+                        break;
+                    }
                 }
-                oos.close();
-                in.close();
+                if (flag){
+                    datas.add(Player.getInstance());
+                }
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            new Thread(new Out()).start();
             //排序
-            //TODO
-
+            CompareScore cs = new CompareScore();
+            datas.sort(cs);
 
             playerAdapter= new PlayerAdapter(RankListActivity.this,datas);
             listView.setAdapter(playerAdapter);
@@ -116,10 +149,44 @@ public class RankListActivity extends AppCompatActivity {
         }
     }
 
+    public class Out implements Runnable{
+
+        @Override
+        public void run() {
+            socket = new Socket();
+            Log.i("test","do");
+            try {
+                socket.connect(new InetSocketAddress("192.168.56.1",9999),5000);
+                  /*
+                向服务器发送发出请求
+                 */
+                out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8),true);
+                out.println("get rankList"+"");
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+
+                /*
+                等待服务器响应
+                 */
+                s = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+                String i = s.readLine();
+                Log.i(" storge ranklist",i);
+
+                Log.i(" storge ranklist","there");
+
+                if (i != null){
+
+                    oos.writeObject(datas);//将列表传回服务器
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 
     private void initDatas(){
         new Thread(new Connect()).start();
-
     }
 
 }

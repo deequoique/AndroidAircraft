@@ -68,6 +68,7 @@ public class PlayerAdapter extends BaseAdapter {
         return v;
     }
 
+
     class ViewHold{
         TextView playerNo;
         TextView playerName;
