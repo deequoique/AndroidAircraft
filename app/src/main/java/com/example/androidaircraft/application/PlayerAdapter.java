@@ -62,7 +62,7 @@ public class PlayerAdapter extends BaseAdapter {
         viewHold.playerTime.setText(player.time);
 
         viewHold.playerScore.setText(Integer.toString(player.score));
-        viewHold.playerNo.setText(Integer.toString(i));
+        viewHold.playerNo.setText(Integer.toString(i+1));
         viewHold.playerName.setText(player.name);
 
         return v;

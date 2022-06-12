@@ -1,47 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activity.RegisterActivity"
-    >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入您的id"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="266dp" />
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:background="#E1DFD0"
+        android:focusable="auto"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp">
 
+            <TextView
+                android:id="@+id/textlogin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="登  录"
+                android:textColor="#03A9F4"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="397dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:backgroundTint="#020202"
+            android:drawableLeft="@drawable/plane"
+            android:hint="请输入您的用户名"
+            tools:layout_editor_absoluteX="-16dp"
+            tools:layout_editor_absoluteY="266dp" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="411dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="322dp" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="50dp"
+            android:drawableLeft="@drawable/lock"
+            android:ems="10"
+            android:hint="请输入您的密码"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="322dp" />
 
-    <Button
-    android:id="@+id/login"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="登录"
-        android:onClick="onClick"
-    tools:layout_editor_absoluteX="156dp"
-    tools:layout_editor_absoluteY="470dp" />
-</LinearLayout>
-</RelativeLayout>
+        <Button
+
+            android:id="@+id/login"
+            android:layout_width="207dp"
+            android:layout_height="58dp"
+            android:layout_marginLeft="95dp"
+            android:layout_marginTop="50dp"
+            android:background="#BEDCDF"
+            android:drawableLeft="@drawable/login"
+            android:onClick="onClick"
+            android:text="登   录"
+            android:textColor="#03A9F4"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="156dp"
+            tools:layout_editor_absoluteY="470dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
