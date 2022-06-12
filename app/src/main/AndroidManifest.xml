@@ -46,6 +46,10 @@
         <activity android:name=".activity.RankListActivity">
 
         </activity>
+
+        <activity android:name=".activity.UpgradeActivity">
+
+        </activity>
         <service android:name=".application.MusicService"
 
             />

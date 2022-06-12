@@ -4,6 +4,7 @@ package com.example.androidaircraft.aircraft;
 import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.application.ImageManager;
 import com.example.androidaircraft.bullet.AbstractBullet;
+import com.example.androidaircraft.player.Player;
 import com.example.androidaircraft.shoot.MobShoot;
 import com.example.androidaircraft.shoot.ShootContext;
 import com.example.androidaircraft.shoot.ShootStrategy;
@@ -19,7 +20,7 @@ public class HeroAircraft extends AbstractAircraft {
     private static final HeroAircraft instance = new HeroAircraft(
             MainActivity.screenWidth / 2,
             MainActivity.screenHeight - ImageManager.HERO_IMAGE.getHeight() ,
-            0, 0, 100000);
+            0, 0, Player.getInstance().hp);
 
     public static HeroAircraft getInstance(){
         return instance;
@@ -31,7 +32,10 @@ public class HeroAircraft extends AbstractAircraft {
     /**
      * 子弹伤害
      */
-    private final int power = 30;
+    private final int power = Player.getInstance().power;
+    public int getPower() {
+        return power;
+    }
 
     /**
      * 子弹射击方向 (向下发射：1，向上发射：-1)

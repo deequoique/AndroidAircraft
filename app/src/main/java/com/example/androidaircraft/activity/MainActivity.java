@@ -1,5 +1,6 @@
 package com.example.androidaircraft.activity;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -27,8 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean needMusic;
     private Switch bgm ;
+    private Button upgrade;
     public static  int screenWidth ;
     public static  int screenHeight ;
+    private static final String MI = "192.168.43.2";
+    private static final String HIT = "10.250.109.50";
+    public static final String IP = HIT;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void getScreenHW(){
@@ -47,11 +53,19 @@ public class MainActivity extends AppCompatActivity {
         ImageManager.loadingImg(getResources());
         setContentView(R.layout.activity_main);
         bgm = (Switch) findViewById(R.id.bgm);
+        upgrade = findViewById(R.id.upgrade_button);
 
         bgm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 needMusic = b;
+            }
+        });
+        upgrade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,UpgradeActivity.class);
+                startActivity(intent);
             }
         });
     }

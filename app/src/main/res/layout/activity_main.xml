@@ -10,8 +10,8 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="629dp"
-        android:layout_marginTop="160dp"
+        android:layout_height="680dp"
+        android:layout_marginTop="150dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -47,23 +47,15 @@
             android:gravity="center"
             android:onClick="Starthard" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="180dp"
-            android:layout_height="55dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/friend" />
-
         <Switch
             android:id="@+id/bgm"
             android:layout_width="113dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:gravity="center" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/upgrade_button"
             android:layout_width="124dp"
             android:layout_height="83dp"
             android:layout_marginRight="150dp"

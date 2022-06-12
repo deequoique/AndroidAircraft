@@ -24,6 +24,7 @@ public class MusicService extends Service {
     private MediaPlayer bulletHitPlayer;
     private MediaPlayer gameOverPlayer;
     private MediaPlayer getSupplyPlayer;
+    private MediaPlayer getCoinPlayer;
 
     private String TAG = "bgm";
 
@@ -45,6 +46,10 @@ public class MusicService extends Service {
             stopMusic(bossPlayer);
         }else if("stop_bgm".equals(action)){
             stopMusic(bgmPlayer);
+        }else if("gold".equals(action)){
+            playCoin();
+        }else if("silver".equals(action)){
+            playCoin();
         }
         return super.onStartCommand(intent,flags,startId);
     }
@@ -96,6 +101,13 @@ public class MusicService extends Service {
         }
 
         getSupplyPlayer.start();
+    }
+
+    public void playCoin(){
+        if(getCoinPlayer == null){
+            getCoinPlayer = MediaPlayer.create(this,R.raw.coin);
+        }
+        getCoinPlayer.start();
     }
 
     public void stopMusic(MediaPlayer player){

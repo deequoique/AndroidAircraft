@@ -70,6 +70,9 @@ public class CreateActivity extends AppCompatActivity {
 
         player.name = idString;
         player.passWord = passWordString1;
+        player.money = 0;
+        player.hp = 150;
+        player.power = 10;
 
         System.out.println(player.name);
     }
@@ -83,7 +86,7 @@ public class CreateActivity extends AppCompatActivity {
 
                 socket = new Socket();
                 socket.connect(new InetSocketAddress
-                        ("192.168.56.1",9999),5000);
+                        (MainActivity.IP,9999),5000);
 
                 /**
                  * 向服务器发送请求码

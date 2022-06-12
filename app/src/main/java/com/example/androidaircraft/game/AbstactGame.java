@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -29,6 +30,8 @@ import com.example.androidaircraft.factory.EnemyFactory;
 import com.example.androidaircraft.player.Player;
 import com.example.androidaircraft.props.AbstractProp;
 import com.example.androidaircraft.props.BombSupply;
+import com.example.androidaircraft.props.GoldCoin;
+import com.example.androidaircraft.props.SilverCoin;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,7 +86,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
         return player;
     }
 
-    private Player player;
+    private Player player = Player.getInstance();
 
     protected int enemyMaxNumber = 5;
 
@@ -190,6 +193,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
             //每个时刻重绘界面
             draw();
 
+
             //背景音乐检查
             if(needMusic){
                 music();
@@ -202,7 +206,7 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
 
                 System.out.println("game over");
                 intent.putExtra("action","over");
-                context.startService(intent);
+               if(needMusic){context.startService(intent);}
                 Intent intent = new Intent(context, RankListActivity.class);
 
                 context.startActivity(intent);
@@ -268,6 +272,8 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
 
     private void propMoveAction(){
         for (AbstractProp prop : abstractProp) {
+            Log.i("silver","move");
+
             prop.forward();
         }
     }
@@ -319,8 +325,9 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
                             score += 10;
                             scorer += 10;
                             // 可能不会生成道具
-                            if (Math.random() >= 0.3) {
+                            if (Math.random() >= 0.2) {
                                 abstractProp.add(prop(enemyAircraft));
+                                Log.i("game","add");
                             }
                         }
                         if (enemyAircraft instanceof BossEnemy) {
@@ -333,30 +340,46 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
                         }
                     }
                 }
+
                 // 英雄机 与 敌机 相撞，均损毁
                 if (enemyAircraft.crash(heroAircraft) || heroAircraft.crash(enemyAircraft)) {
                     enemyAircraft.vanish();
                     heroAircraft.decreaseHp(Integer.MAX_VALUE);
                 }
             }
+
         }
 
 
         // 我方获得道具，道具生效
 
         for (AbstractProp p : abstractProp) {
+            Log.i("game",p.toString());
+
             if (heroAircraft.crash(p)) {
                 p.vanish();
                 p.use(heroAircraft);
-                intent.putExtra("action","supply");
-                context.startService(intent);
-                if (p instanceof BombSupply) {
-                    intent.putExtra("action","bomb");
-                    context.startService(intent);
-                    score += ((BombSupply) p).score;
-                    scorer += ((BombSupply) p).score;
+
+                if (needMusic) {
+                    if (p instanceof BombSupply) {
+                        intent.putExtra("action", "bomb");
+                        context.startService(intent);
+                        score += ((BombSupply) p).score;
+                        scorer += ((BombSupply) p).score;
+                    } else if (p instanceof GoldCoin) {
+                        intent.putExtra("action", "gold");
+                        context.startService(intent);
+                    } else if (p instanceof SilverCoin) {
+                        intent.putExtra("action", "silver");
+                        context.startService(intent);
+                    } else {
+                        intent.putExtra("action", "supply");
+                        context.startService(intent);
+                    }
                 }
             }
+            Log.i("game",".7");
+
         }
     }
 
@@ -456,6 +479,8 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
 
 
     private void paintImageWithPositionRevised(List<? extends AbstractFlyingObject> objects) {
+        Log.i("game","print");
+
         if (objects.size() == 0) {
             return;
         }
@@ -481,6 +506,8 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
         canvas.drawText("SCORE:" + this.score, x, y,paint);
         y = y + 60;
         canvas.drawText("LIFE:" + this.heroAircraft.getHp(), x, y,paint);
+        y = y + 60;
+        canvas.drawText("MONEY:" + player.money,x,y,paint);
     }
 
     /**
@@ -489,7 +516,6 @@ public abstract class AbstactGame extends SurfaceView implements SurfaceHolder.C
     private void createPlayer(){
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-        player = Player.getInstance();
         player.score = this.score;
         player.time = date.toString();
     }

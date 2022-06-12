@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#5B82A5">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp">
+
+            <TextView
+                android:id="@+id/textupgrade"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="升  级"
+                android:textColor="#EBF3F6"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/money"
+            android:layout_width="199dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/money_bag"
+            android:text="money"
+            android:textColor="#EBF3F6"
+            android:textSize="34sp" />
+
+        <LinearLayout
+            android:layout_width="342dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:background="#951B7B97"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_bullet"
+                android:layout_width="239dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/bullet"
+                android:gravity="center"
+                android:text="子弹威力加强"
+                android:textColor="#EBF3F6"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/up_for_bullet"
+                android:layout_width="131dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_an_click"
+                android:drawableRight="@drawable/upgrade"
+                android:text="50"
+                android:textColor="#DF9516"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_power"
+            android:layout_width="342dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="30dp"
+            android:text="当前威力："
+            android:textColor="#EBF3F6"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="342dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
+            android:background="#951B7B97"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="242dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/hp"
+                android:gravity="center"
+                android:text="初始血量增加"
+                android:textColor="#EBF3F6"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/up_for_hp"
+                android:layout_width="131dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_an_click"
+                android:drawableRight="@drawable/upgrade"
+                android:text="50"
+                android:textColor="#DF9516"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_hp"
+            android:layout_width="342dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="30dp"
+            android:text="当前生命："
+            android:textColor="#EBF3F6"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/btn_return"
+            android:layout_width="83dp"
+            android:layout_height="68dp"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/return_btn" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

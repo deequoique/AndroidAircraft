@@ -36,11 +36,14 @@ public class RegisterActivity extends AppCompatActivity{
     private Socket socket;
     private boolean flag = false;
     private PrintWriter out;
+    public static ArrayList<Player> save;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
+
+        player = Player.getInstance();
 
         setContentView(R.layout.register);
         PlayerDaoImpl playerDao = new PlayerDaoImpl();
@@ -60,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity{
         Log.i("test", String.valueOf(id));
         idString = id.getText().toString();
         passWordString = passWord.getText().toString();
-        player = Player.getInstance();
         player.passWord = passWordString;
         player.name = idString;
         new Thread(new Connect()).start();
@@ -73,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity{
             try {
                 socket = new Socket();
                 Log.i("test","do");
-                socket.connect(new InetSocketAddress("192.168.56.1",9999),5000);
+                socket.connect(new InetSocketAddress(MainActivity.IP,9999),5000);
 
                 /**
                  * 向服务器发送请求码
@@ -118,7 +120,10 @@ public class RegisterActivity extends AppCompatActivity{
         for(Player players: playerDao.getPlayers()){
             if (players.name.equals(idString)){
                 if(players.passWord.equals(passWordString)){
-                    player = players;
+                    Player.getInstance().money = players.money;
+                    Player.getInstance().power = players.power;
+                    Player.getInstance().hp = players.hp;
+                    save = playerDao.getPlayers();
                     Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                     startActivity(intent);
                 }//密码正确，进入主页面

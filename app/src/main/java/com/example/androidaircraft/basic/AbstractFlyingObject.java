@@ -2,6 +2,7 @@ package com.example.androidaircraft.basic;
 
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.example.androidaircraft.activity.MainActivity;
 import com.example.androidaircraft.aircraft.AbstractAircraft;
@@ -102,14 +103,23 @@ public abstract class AbstractFlyingObject implements Subscriber {
      * @return true: 我方被击中; false 我方未被击中
      */
     public boolean crash(AbstractFlyingObject flyingObject) {
+        Log.i("crash",flyingObject.toString());
         // 缩放因子，用于控制 y轴方向区域范围
         int factor = this instanceof AbstractAircraft ? 2 : 1;
         int fFactor = flyingObject instanceof AbstractAircraft ? 2 : 1;
 
         int x = flyingObject.getLocationX();
+        Log.i("crash",".1");
+
         int y = flyingObject.getLocationY();
+        Log.i("crash",".2");
+
         int fWidth = flyingObject.getWidth();
+        Log.i("crash",".3");
+
         int fHeight = flyingObject.getHeight();
+        Log.i("crash",".4");
+
 
         return x + (fWidth+this.getWidth())/2 > locationX
                 && x - (fWidth+this.getWidth())/2 < locationX

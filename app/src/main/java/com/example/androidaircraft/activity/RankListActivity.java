@@ -42,6 +42,7 @@ public class RankListActivity extends AppCompatActivity {
     private PlayerDaoImpl playerDao =  new PlayerDaoImpl();
     private BufferedReader s;
 
+    private static Object LOCK;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,8 @@ public class RankListActivity extends AppCompatActivity {
         setContentView(R.layout.rank_list);
 
         initDatas();
+
+
         listView = findViewById(R.id.rank_list);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,8 +96,7 @@ public class RankListActivity extends AppCompatActivity {
         public void run() {
             try {
                 socket = new Socket();
-                Log.i("test","do");
-                socket.connect(new InetSocketAddress("192.168.56.1",9999),5000);
+                socket.connect(new InetSocketAddress(MainActivity.IP,9999),5000);
 
                 /**
                  * 向服务器发送请求码
@@ -138,7 +140,13 @@ public class RankListActivity extends AppCompatActivity {
             datas.sort(cs);
 
             playerAdapter= new PlayerAdapter(RankListActivity.this,datas);
-            listView.setAdapter(playerAdapter);
+            runOnUiThread(new Runnable(){
+
+                @Override
+                public void run() {
+                    listView.setAdapter(playerAdapter);
+                }
+            });
 
             /**
              * 打印账号列表
@@ -154,9 +162,8 @@ public class RankListActivity extends AppCompatActivity {
         @Override
         public void run() {
             socket = new Socket();
-            Log.i("test","do");
             try {
-                socket.connect(new InetSocketAddress("192.168.56.1",9999),5000);
+                socket.connect(new InetSocketAddress(MainActivity.IP,9999),5000);
                   /*
                 向服务器发送发出请求
                  */
@@ -169,9 +176,6 @@ public class RankListActivity extends AppCompatActivity {
                  */
                 s = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
                 String i = s.readLine();
-                Log.i(" storge ranklist",i);
-
-                Log.i(" storge ranklist","there");
 
                 if (i != null){
 
@@ -180,7 +184,45 @@ public class RankListActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            new Thread(new Save()).start();
 
+        }
+    }
+
+    public class Save implements Runnable{
+
+        @Override
+        public void run() {
+            socket = new Socket();
+            try {
+                socket.connect(new InetSocketAddress(MainActivity.IP,9999),5000);
+                  /*
+                向服务器发送发出请求
+                 */
+                out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8),true);
+                out.println("save"+"");
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+
+                /*
+                等待服务器响应
+                 */
+                s = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+                String i = s.readLine();
+
+                for(Player p : RegisterActivity.save){
+                    if(p.name.equals(Player.getInstance().name)){
+                        RegisterActivity.save.remove(p);
+                        RegisterActivity.save.add(Player.getInstance());
+                        break;
+                    }
+                }
+
+                if (i != null){
+                    oos.writeObject(RegisterActivity.save);//将列表传回服务器
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

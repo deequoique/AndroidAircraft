@@ -14,7 +14,9 @@ import com.example.androidaircraft.bullet.EnemyBullet;
 import com.example.androidaircraft.bullet.HeroBullet;
 import com.example.androidaircraft.props.BombSupply;
 import com.example.androidaircraft.props.FireSupply;
+import com.example.androidaircraft.props.GoldCoin;
 import com.example.androidaircraft.props.HpSupply;
+import com.example.androidaircraft.props.SilverCoin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +46,8 @@ public class ImageManager {
     public static Bitmap PROP_BLOOD_IMAGE;
     public static Bitmap PROP_BOMB_IMAGE;
     public static Bitmap PROP_BULLET_IMAGE;
+    public static Bitmap PROP_GOLD_IMAGE;
+    public static Bitmap PROP_SILVER_IMAGE;
     public static void loadingImg(Resources resources){
         ImageManager.BACKGROUND_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.bg);
         ImageManager.HERO_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.hero);
@@ -55,6 +59,8 @@ public class ImageManager {
         ImageManager.PROP_BLOOD_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_blood);
         ImageManager.PROP_BOMB_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_bomb);
         ImageManager.PROP_BULLET_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_bullet);
+        ImageManager.PROP_GOLD_IMAGE = BitmapFactory.decodeResource(resources,R.drawable.coin_gold_dollar);
+        ImageManager.PROP_SILVER_IMAGE = BitmapFactory.decodeResource(resources,R.drawable.coin_silver_dollar);
         CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
         CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
         CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
@@ -66,6 +72,8 @@ public class ImageManager {
         CLASSNAME_IMAGE_MAP.put(HpSupply.class.getName(), PROP_BLOOD_IMAGE);
         CLASSNAME_IMAGE_MAP.put(FireSupply.class.getName(), PROP_BULLET_IMAGE);
         CLASSNAME_IMAGE_MAP.put(BombSupply.class.getName(), PROP_BOMB_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(GoldCoin.class.getName(),PROP_GOLD_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(SilverCoin.class.getName(),PROP_SILVER_IMAGE);
     }
 
     public static Bitmap get(String className){
