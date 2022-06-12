@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static  int screenHeight ;
     private static final String MI = "192.168.43.2";
     private static final String HIT = "10.250.109.50";
+    private static final String HE = "10.250.65.1";
     public static final String IP = HIT;
 
     @RequiresApi(api = Build.VERSION_CODES.R)

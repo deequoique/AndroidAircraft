@@ -67,25 +67,16 @@ public class RankListActivity extends AppCompatActivity {
                                 datas.remove(i);
                                 playerAdapter.notifyDataSetChanged();
                                 new Thread(new Out()).start();
-                                Toast.makeText(RankListActivity.this, "这是确定按钮", Toast.LENGTH_SHORT).show();
                             }
                         })
 
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {//添加取消
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(RankListActivity.this, "这是取消按钮", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNeutralButton("普通按钮", new DialogInterface.OnClickListener() {//添加普通按钮
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(RankListActivity.this, "这是普通按钮", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .create();
                 alertDialog.show();
-                Toast.makeText(RankListActivity.this,"您单击了"+datas.get(i).name,Toast.LENGTH_SHORT).show();
             }
         });
     }
